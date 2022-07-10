@@ -1,0 +1,7 @@
+
+
+difficulties = {
+
+  "Chicken's Den" : "☠️"
+  
+}

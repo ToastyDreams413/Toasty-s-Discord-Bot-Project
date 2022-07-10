@@ -29,6 +29,9 @@ import TextStuff.ItemStatsText as ItemStatsText
 import Main.Colors as Colors
 import Main.ItemsToTypes as ItemsToTypes
 import Main.TypesToTypes as TypesToTypes
+import TextStuff.DUnlockReqsText as DUnlockReqsText
+import TextStuff.DDifficultiesText as DDifficultiesText
+import TextStuff.DDescriptionsText as DDescriptionsText
 from Classes.Player import Player as Player
 from Classes.Char import Char as Char
 from Classes.Dungeon import Dungeon as Dungeon
@@ -158,7 +161,7 @@ async def on_message(message):
       if dead:
         # checking if all enemies are dead
         if Data.inDungeon[curLeader].checkForWin():
-          em = discord.Embed(title = "Dungeon Completed", description = "You won!\nYou've conqueued " + Data.inDungeon[curLeader].dungeonName + "\n\n", color = Colors.green)
+          em = discord.Embed(title = "Dungeon Completed", description = "You won!\nYou've conquerued " + Data.inDungeon[curLeader].dungeonName + "\n\n", color = Colors.green)
           await message.channel.send(embed = em)
           for player in Data.inDungeon[curLeader].players:
             lootString = "\n\n__You obtained the following items:__"
@@ -777,6 +780,22 @@ async def on_message(message):
 
 
 
+  if words[0] == "dinfo" or words[0] == "dInfo" or words[0] == "dungeoninfo" or words[0] == "dungeonInfo":
+
+    if len(words) == 1:
+      return
+
+    curDungeon = " ".join(words[1:])
+    if curDungeon not in DUnlockReqsText.reqs:
+      em = discord.Embed(title = "Error", description = "That dungeon doesn't exist!", color = Colors.red)
+      return
+
+    em = discord.Embed(title = "Dungeon Info", description = "**__" + curDungeon + "__**\n\n__Difficulty:__ " + DDifficultiesText.difficulties[curDungeon] + "\n\n__Requirements to unlock:__ " + DUnlockReqsText.reqs[curDungeon] + "\n\n" + DDescriptionsText.description[curDungeon], color = Colors.navy)
+    await message.channel.send(embed = em)
+    return
+
+
+
   if words[0] == "equip":
 
     if not plays:
@@ -800,28 +819,34 @@ async def on_message(message):
         for char in Data.pOverview[curAuthor].chars:
           
           if char.className == Data.pOverview[curAuthor].selected:
+
+            addString = ""
             
             if TypesToTypes.typetype[item.type] == "weapon":
               if char.weapon.name != "None":
                 Data.pOverview[curAuthor].inventory.append(char.weapon)
+                addString = "\nTo do so, you automatically unequipped your " + char.weapon.name + "."
               char.weapon = item
               Data.pOverview[curAuthor].inventory.remove(item)
               
             elif TypesToTypes.typetype[item.type] == "ability":
               if char.ability.name != "None":
                 Data.pOverview[curAuthor].inventory.append(char.ability)
+                addString = "\nTo do so, you automatically unequipped your " + char.ability.name + "."
               char.ability = item
               Data.pOverview[curAuthor].inventory.remove(item)
               
             elif TypesToTypes.typetype[item.type] == "armor":
               if char.armor.name != "None":
                 Data.pOverview[curAuthor].inventory.append(char.armor)
+                addString = "\nTo do so, you automatically unequipped your " + char.armor.name + "."
               char.armor = item
               Data.pOverview[curAuthor].inventory.remove(item)
               
             elif TypesToTypes.typetype[item.type] == "gadget":
               if char.gadget.name != "None":
                 Data.pOverview[curAuthor].inventory.append(char.gadget)
+                addString = "\nTo do so, you automatically unequipped your " + char.gadget.name + "."
               char.gadget = item
               Data.pOverview[curAuthor].inventory.remove(item)
               
@@ -830,9 +855,9 @@ async def on_message(message):
               await message.channel.send(embed = em)
               return
 
-            char.resetStats()
+            char.resetStats()  
               
-            em = discord.Embed(title = "Equip", description = "Successfully equipped " + item.name + "!", color = Colors.green)
+            em = discord.Embed(title = "Equip", description = "Successfully equipped " + item.name + "!" + addString, color = Colors.green)
             await message.channel.send(embed = em)
             return
 
@@ -917,7 +942,7 @@ async def on_message(message):
       elif ItemsToTypes.itemType[curItem] == "gadget":
         rCurItem = CreatingGadgets.createGadget(curItem)
       Data.pOverview[Data.namesToTags[player]].inventory.append(rCurItem)
-      em = discord.Embed(title = "Giving Item (Admin)", description = "You successfully gave " + curItem + " to " + player + "!", color = Colors.green)
+      em = discord.Embed(title = "Giving Item (Admin)", description = "You successfully gave " + curItem + " to **" + player + "**!", color = Colors.green)
       await message.channel.send(embed = em)
       return
     
