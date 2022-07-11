@@ -172,7 +172,7 @@ async def on_message(message):
               curNum = randint(1, 100)
               if curNum <= item[1]:
                 Data.pOverview[player[0]].inventory.append(item)
-                lootString += "\n" + item.name
+                lootString += "\n" + item[0].name
             em = discord.Embed(title = "Dungeon Rewards", description = "You earned " + str(Data.inDungeon[curLeader].xpOnComp) + " xp" + lootString, color = Colors.green)
             await Data.messageAuthors[player[1]].send(embed = em)
             for char in Data.pOverview[player[0]].chars:
@@ -183,9 +183,7 @@ async def on_message(message):
 
                 # if they have enough xp to level up now
                 if char.xp >= Data.xpToNextLevel[char.level - 1]:
-                  char.xp -= Data.xpToNextLevel[char.level - 1]
-                  char.level += 1
-                  em = discord.Embed(title = "Level up", description = "Your " + char.className + " leveled up to level " + str(char.level) + "!", color = Colors.green)
+                  em = discord.Embed(title = "Level up", description = char.levelUp(), color = Colors.green)
                   await Data.messageAuthors[player[1]].send(embed = em)
 
           del Data.inDungeon[curLeader]
@@ -305,6 +303,14 @@ async def on_message(message):
             await message.channel.send(embed = em)
             return
 
+          if char.ability.type == "helmet" and char.ability.groupBuff:
+            for player in Data.inDungeon[curLeader].players:
+              for char2 in Data.pOverview[player[0]].chars:
+                if player[0] == curAuthor:
+                  continue
+                if char2.className == player[2]:
+                  char2.statusEffects.append(["berserk", char.ability.bersAmount, char.ability.bersTurns])
+                  break
           em = discord.Embed(title = "Ability", description = char.useAbility(), color = Colors.navy)
           await message.channel.send(embed = em)
 
@@ -367,6 +373,19 @@ async def on_message(message):
   words[0] = words[0][1:] # remove prefix from text string
 
 
+  if words[0] == "report":
+    if len(words) == 1:
+      return
+
+    f = open("bugs.txt", "a")
+    f.write(curAuthor + ": " + " ".join(words[1:]) + "\n")
+    f.close()
+
+    em = discord.Embed(title = "Reporting Bug", description = "You successfully reported the bug! Thanks!", color = Colors.green)
+    await message.channel.send(embed = em)
+    return
+
+
   
   if words[0] == "help":
     if len(words) == 1:
@@ -401,6 +420,11 @@ async def on_message(message):
       
       if words[1] == "dungeons":
         em = discord.Embed(title = "Help", description = Text.helpDungeons, color = Colors.navy)
+        await message.channel.send(embed = em)
+        return
+
+      if words[1] == "party":
+        em = discord.Embed(title = "Help", description = Text.helpParty, color = Colors.navy)
         await message.channel.send(embed = em)
         return
         
@@ -618,8 +642,14 @@ async def on_message(message):
       await message.channel.send(embed = em)
     else:
       invString = ""
+      curInv = {}
       for item in Data.pOverview[curAuthor].inventory:
-        invString += item.name + "\n"
+        if item.name not in curInv:
+          curInv[item.name] = 1
+          continue
+        curInv[item.name] += 1
+      for item in curInv:
+        invString += str(curInv[item]) + "x " + item + "\n"
       em = discord.Embed(title = "Inventory", description = invString, color = Colors.brown)
       await message.channel.send(embed = em)
     return

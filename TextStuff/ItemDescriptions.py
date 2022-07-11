@@ -1,8 +1,14 @@
 itemDescriptions = {
   
   "Starter Sword" : "*Seems more like a stick to me.*",
+
+  "Starter Helmet" : "*Barely fits on my head.*",
+
+  "Rusty Sword" : "*A rusty, old sword.*",
   
   "Rusty Helmet" : "*A rusty, old helmet.*",
+
+  "Rusty Heavy Armor" : "*A rusty, old set of heavy armor.*",
 
 
 

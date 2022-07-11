@@ -15,7 +15,8 @@ friends = {} # in game friends
 admins = ["ToastyDreams#9785"] # admins
 
 playerLimits = {
-  "Chicken's Den" : 2
+  "Chicken's Den" : 2,
+  "Thieves Hideout" : 5
 }
 
 

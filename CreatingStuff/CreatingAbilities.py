@@ -11,9 +11,12 @@ def createAbility(name):
 
   if name == "None":
     return Ability("None", "ability", 0, 0, 0, 0, 0, 0, 0, 0, 0, None)
+
+  if name == "Starter Helmet":
+    return Helmet("Starter Helmet", "helmet", 0, 0, 2, 0, 0, 0, 0, 0, 50, False, 2, 1, None)
     
   if name == "Rusty Helmet":
-    return Helmet("Rusty Helmet", "helmet", 0, 0, 2, 0, 0, 0, 0, 0, 50, False, 2, 1, None)
+    return Helmet("Rusty Helmet", "helmet", 0, 0, 3, 0, 0, 0, 0, 0, 60, True, 2, 1, None)
 
   if name == "Toasty's Helmet":
     return Helmet("Toasty's Helmet", "helmet", 0, 5000, 5000, 0, 100000, 100000, 0, 0, 100, True, 100, 10, None)
