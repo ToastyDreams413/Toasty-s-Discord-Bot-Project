@@ -54,10 +54,6 @@ class Char:
     for statusEffect in self.statusEffects:
       if statusEffect[0] == "berserk":
         baseDmg *= statusEffect[1]
-        statusEffect[2] -= 1
-    for statusEffect in self.statusEffects:
-      if statusEffect[2] == 0:
-        self.statusEffects.remove(statusEffect)
     return int(baseDmg)
 
   def getTotalDef(self):
@@ -112,3 +108,14 @@ class Char:
     self.level += 1
     self.resetStats()
     return curString
+
+  def decreaseEffectTimers(self):
+    for statusEffect in self.statusEffects:
+      statusEffect[2] -= 1
+
+    toDelete = []
+    for statusEffect in self.statusEffects:
+      if statusEffect[2] == 0:
+        toDelete.append(statusEffect)
+    for statusEffect in toDelete:
+      self.statusEffects.remove(statusEffect)

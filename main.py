@@ -142,6 +142,8 @@ async def on_message(message):
           curDmg = char.getTotalDmg()
           break
 
+      char.decreaseEffectTimers()
+      
       curEnemy = Data.inDungeon[curLeader].enemies[Data.inDungeon[curLeader].enemiesNameList.index(attacking)]
       curDmg -= curEnemy.defense
       if curDmg <= 0:
@@ -161,7 +163,7 @@ async def on_message(message):
       if dead:
         # checking if all enemies are dead
         if Data.inDungeon[curLeader].checkForWin():
-          em = discord.Embed(title = "Dungeon Completed", description = "You won!\nYou've conquerued " + Data.inDungeon[curLeader].dungeonName + "\n\n", color = Colors.green)
+          em = discord.Embed(title = "Dungeon Completed", description = "You won!\nYou've conquered " + Data.inDungeon[curLeader].dungeonName + "\n\n", color = Colors.green)
           await message.channel.send(embed = em)
           for player in Data.inDungeon[curLeader].players:
             lootString = "\n\n__You obtained the following items:__"
@@ -171,7 +173,7 @@ async def on_message(message):
             for item in Data.inDungeon[curLeader].rLoot:
               curNum = randint(1, 100)
               if curNum <= item[1]:
-                Data.pOverview[player[0]].inventory.append(item)
+                Data.pOverview[player[0]].inventory.append(item[0])
                 lootString += "\n" + item[0].name
             em = discord.Embed(title = "Dungeon Rewards", description = "You earned " + str(Data.inDungeon[curLeader].xpOnComp) + " xp" + lootString, color = Colors.green)
             await Data.messageAuthors[player[1]].send(embed = em)
@@ -303,13 +305,16 @@ async def on_message(message):
             await message.channel.send(embed = em)
             return
 
+          char.decreaseEffectTimers()
           if char.ability.type == "helmet" and char.ability.groupBuff:
             for player in Data.inDungeon[curLeader].players:
               for char2 in Data.pOverview[player[0]].chars:
                 if player[0] == curAuthor:
                   continue
                 if char2.className == player[2]:
-                  char2.statusEffects.append(["berserk", char.ability.bersAmount, char.ability.bersTurns])
+                  for statusEffect in char2.statusEffects:
+                    if statusEffect[0] == "berserk":
+                      statusEffect = ["berserk", char.ability.bersAmount, char.ability.bersTurns]
                   break
           em = discord.Embed(title = "Ability", description = char.useAbility(), color = Colors.navy)
           await message.channel.send(embed = em)
@@ -820,7 +825,7 @@ async def on_message(message):
       em = discord.Embed(title = "Error", description = "That dungeon doesn't exist!", color = Colors.red)
       return
 
-    em = discord.Embed(title = "Dungeon Info", description = "**__" + curDungeon + "__**\n\n__Difficulty:__ " + DDifficultiesText.difficulties[curDungeon] + "\n\n__Requirements to unlock:__ " + DUnlockReqsText.reqs[curDungeon] + "\n\n" + DDescriptionsText.description[curDungeon], color = Colors.navy)
+    em = discord.Embed(title = "Dungeon Info", description = "**__" + curDungeon + "__**\n\nDifficulty: " + DDifficultiesText.difficulties[curDungeon] + "\n\n__Requirements to unlock:__ " + DUnlockReqsText.reqs[curDungeon] + "\n\n" + DDescriptionsText.description[curDungeon], color = Colors.navy)
     await message.channel.send(embed = em)
     return
 
