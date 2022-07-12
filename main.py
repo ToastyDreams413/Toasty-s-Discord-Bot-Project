@@ -180,7 +180,6 @@ async def on_message(message):
                 Data.pOverview[player[0]].inventory.append(item[0])
                 lootString += "\n" + item[0].name
             em = discord.Embed(title = "Dungeon Rewards", description = "You earned " + str(Data.inDungeon[curLeader].xpOnComp) + " xp" + lootString, color = Colors.green)
-            await Data.messageAuthors[player[1]].send(embed = em)
             for char in Data.pOverview[player[0]].chars:
               if char.className == Data.pOverview[player[0]].selected:
                 char.hp = char.getTotalMaxHp()
@@ -191,6 +190,19 @@ async def on_message(message):
                 if char.xp >= Data.xpToNextLevel[char.level - 1]:
                   em = discord.Embed(title = "Level up", description = char.levelUp(), color = Colors.green)
                   await Data.messageAuthors[player[1]].send(embed = em)
+                  
+            await Data.messageAuthors[player[1]].send(embed = em)
+            
+            if Data.inDungeon[curLeader].dungeonName not in Data.pOverview[player[0]].dCompleted:
+              Data.pOverview[player[0]].dCompleted[Data.inDungeon[curLeader].dungeonName] = 1
+              if Data.inDungeon[curLeader].dungeonName == "Chicken's Den":
+                Data.pOverview[player[0]].dUnlocked.append("thieves hideout")
+                em = discord.Embed(title = "Dungeon Unlocked", description = "You unlocked the dungeon Thieves Hideout!", color = Colors.green)
+                await Data.messageAuthors[player[1]].send(embed = em)
+            else:
+              Data.pOverview[player[0]].dCompleted[Data.inDungeon[curLeader].dungeonName] += 1
+
+
 
           del Data.inDungeon[curLeader]
           
@@ -584,11 +596,11 @@ async def on_message(message):
       for char in curPlayer.chars:
         curString += char.className + " [lvl " + str(char.level) + "]\n"
     curString += "\n__Dungeons:__\n"
-    if len(curPlayer.dungeonsCompleted) == 0:
+    if len(curPlayer.dCompleted) == 0:
       curString += "You haven't completed any dungeons yet\n"
     else:
-      for dungeon in curPlayer.dungeonsCompleted:
-        curString += dungeon + " - " + str(curPlayer.dungeonsCompleted[dungeon]) + "\n"
+      for dungeon in curPlayer.dCompleted:
+        curString += dungeon + " - " + str(curPlayer.dCompleted[dungeon]) + "\n"
     curString += "\n__Classes Unlocked:__\n"
     curString += "\n".join(curPlayer.cUnlocked)
     curString += "\n\n__Dungeons Unlocked:__\n"
@@ -964,7 +976,7 @@ async def on_message(message):
       await message.channel.send(embed = em)
       return
       
-    Data.messageAuthors[curAuthor] = message.author
+    Data.messageAuthors[Data.pOverview[curAuthor].name] = message.author
     em = discord.Embed(title = "Resync", description = "You have successfully resynced!", color = Colors.green)
     await message.channel.send(embed = em)
     return

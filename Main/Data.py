@@ -62,6 +62,11 @@ def getPlayerData(player):
   # selected
   curString += curPlayer.selected + "\n"
 
+  # dCompleted
+  curString += str(len(curPlayer.dCompleted)) + "\n"
+  for dungeon in curPlayer.dCompleted:
+    curString += dungeon + "\n" + str(curPlayer.dCompleted[dungeon]) + "\n"
+
   return curString
 
 
@@ -199,6 +204,12 @@ def loadData():
       elif ItemsToTypes.itemType[curItem] == "item":
         curPlayer.inventory.append(CreatingItems.createItem(curItem))
     curPlayer.selected = f.readline().strip()
+    curPlayer.dCompleted = []
+    d = int(f.readline().strip())
+    for x in range (d):
+      l1 = f.readline().strip()
+      l2 = int(f.readline().strip())
+      curPlayer.dCompleted[l1] = l2
     pOverview[cUser] = curPlayer
 
   inDungeon.clear()
@@ -268,7 +279,7 @@ playerLimits = {
 }
 
 classes = ["warrior", "knight", "priest", "mage", "jester", "assassin"] # classes
-dungeons = ["chicken's den", "your mom's basement", "the endless void", "toasty's temple", "toasty's castle"] # dungeons
+dungeons = ["chicken's den", "thieves hideout", "your mom's basement", "the endless void", "toasty's temple", "toasty's castle"] # dungeons
 
 
 
