@@ -32,6 +32,8 @@ import Main.TypesToTypes as TypesToTypes
 import TextStuff.DUnlockReqsText as DUnlockReqsText
 import TextStuff.DDifficultiesText as DDifficultiesText
 import TextStuff.DDescriptionsText as DDescriptionsText
+import TextStuff.DXPText as DXPText
+import TextStuff.DDropsText as DDropsText
 from Classes.Player import Player as Player
 from Classes.Char import Char as Char
 from Classes.Dungeon import Dungeon as Dungeon
@@ -56,6 +58,8 @@ async def on_ready():
 @client.event
 async def on_message(message):
   curAuthor = str(message.author)
+  if curAuthor == "ToastyBotBeta#5892" and message.channel.name == "bot-test-spam":
+    return
   if message.author == client.user:
     return
 
@@ -72,12 +76,12 @@ async def on_message(message):
           Data.partyMembers[curAuthor] = Data.commandQueue[curAuthor][1]
           em = discord.Embed(title = "Party Invite Accepted", description = "**" + Data.pOverview[curAuthor].name + "** accepted the party invite!", color = Colors.pink)
           await Data.commandQueue[curAuthor][2].send(embed = em)
-          Data.commandQueue[curAuthor] = []
+          Data.commandQueue[curAuthor] = ["None"]
           return
         elif words[0] == "decline":
           em = discord.Embed(title = "Party Invite Declined", description = "**" + Data.pOverview[curAuthor].name + "** declined the party invite!", color = Colors.pink)
           await Data.commandQueue[curAuthor][2].send(embed = em)
-          Data.commandQueue[curAuthor] = []
+          Data.commandQueue[curAuthor] = ["None"]
     except discord.errors.Forbidden:
       pass
     return
@@ -104,7 +108,7 @@ async def on_message(message):
       Data.messageAuthors[words[0]] = message.author
       em = discord.Embed(title = "Welcome", description = "Welcome **" + words[0] + "**!\nUse " + Data.prefix + "create [class] to create your first character, or " + Data.prefix + "help for help!", color = Colors.green)
       await message.channel.send(embed = em)
-      del Data.commandQueue[curAuthor][0]
+      Data.commandQueue[curAuthor] = ["None"]
       Data.playingNames.append(words[0])
       Data.namesToTags[words[0]] = curAuthor
       return
@@ -518,12 +522,12 @@ async def on_message(message):
       return
 
     allSelected = True
-    if Data.pOverview[curAuthor].selected == None:
+    if Data.pOverview[curAuthor].selected == "None":
       allSelected = False
       
     if curAuthor in Data.parties:
       for member in Data.parties[curAuthor]:
-        if Data.pOverview[member].selected == None:
+        if Data.pOverview[member].selected == "None":
           allSelected = False
           break
           
@@ -602,7 +606,9 @@ async def on_message(message):
       await message.channel.send(embed = em)
       return
 
-    if Data.pOverview[curAuthor].selected == None:
+    #print(curAuthor)
+    #print(Data.pOverview[curAuthor].name)
+    if Data.pOverview[curAuthor].selected == "None":
       em = discord.Embed(title = "Error", description = "You don't have a class selected!", color = Colors.red)
       await message.channel.send(embed = em)
       return
@@ -622,7 +628,7 @@ async def on_message(message):
       await message.channel.send(embed = em)
       return
 
-    if Data.pOverview[curAuthor].selected == None:
+    if Data.pOverview[curAuthor].selected == "None":
       em = discord.Embed(title = "Error", description = "You don't have a class selected!", color = Colors.red)
       await message.channel.send(embed = em)
       return
@@ -825,7 +831,7 @@ async def on_message(message):
       em = discord.Embed(title = "Error", description = "That dungeon doesn't exist!", color = Colors.red)
       return
 
-    em = discord.Embed(title = "Dungeon Info", description = "**__" + curDungeon + "__**\n\nDifficulty: " + DDifficultiesText.difficulties[curDungeon] + "\n\n__Requirements to unlock:__ " + DUnlockReqsText.reqs[curDungeon] + "\n\n" + DDescriptionsText.description[curDungeon], color = Colors.navy)
+    em = discord.Embed(title = "Dungeon Info", description = "**__" + curDungeon + "__**\n\nDifficulty: " + DDifficultiesText.difficulties[curDungeon] + "\n\nRequirements to unlock: " + DUnlockReqsText.reqs[curDungeon] + "\n\n" + DXPText.xp[curDungeon] + "\n\n\n" + DDropsText.drops[curDungeon] + "\n\n" + DDescriptionsText.description[curDungeon], color = Colors.navy)
     await message.channel.send(embed = em)
     return
 
@@ -841,7 +847,7 @@ async def on_message(message):
     if len(words) == 1:
       return
 
-    if Data.pOverview[curAuthor].selected == None:
+    if Data.pOverview[curAuthor].selected == "None":
       em = discord.Embed(title = "Error", description = "You don't have a class selected!", color = Colors.red)
       await message.channel.send(embed = em)
       return
@@ -912,7 +918,7 @@ async def on_message(message):
     if len(words) == 1:
       return
 
-    if Data.pOverview[curAuthor].selected == None:
+    if Data.pOverview[curAuthor].selected == "None":
       em = discord.Embed(title = "Error", description = "You don't have a class selected!", color = Colors.red)
       await message.channel.send(embed = em)
       return
@@ -951,6 +957,20 @@ async def on_message(message):
 
 
 
+  if words[0] == "sync" or words[0] == "resync":
+
+    if not plays:
+      em = discord.Embed(title = "Error", description = Text.notPlaying, color = Colors.red)
+      await message.channel.send(embed = em)
+      return
+      
+    Data.messageAuthors[curAuthor] = message.author
+    em = discord.Embed(title = "Resync", description = "You have successfully resynced!", color = Colors.green)
+    await message.channel.send(embed = em)
+    return
+
+    
+
   if words[0] == "admin":
 
     if curAuthor not in Data.admins:
@@ -980,7 +1000,29 @@ async def on_message(message):
       em = discord.Embed(title = "Giving Item (Admin)", description = "You successfully gave " + curItem + " to **" + player + "**!", color = Colors.green)
       await message.channel.send(embed = em)
       return
+
+    if command == "backup" and len(words) > 2 and words[2] == "data":
+
+      Data.backup()
+      em = discord.Embed(title = "Backing Up Data (Admin)", description = "Data successfully backed up!", color = Colors.green)
+      await message.channel.send(embed = em)
+      return
+
+    if command == "load" and len(words) > 2 and words[2] == "data":
+
+      Data.loadData()
+      em = discord.Embed(title = "Loaded Data (Admin)", description = "Data successfully loaded! Be sure everyone re-syncs.", color = Colors.green)
+      await message.channel.send(embed = em)
+      return
+      
     
+    return
+
+
+
+  if words[0] == "details":
+    em = discord.Embed(title = "Bot Details", description = "This is ToastyDream's Discord Bot Project.\nContact me on discord at ToastyDreams#9785.\nSend me any ideas or suggestions you have\n\nThe bot is currently hosted on repl.it (basic), with the free version of UpTimeRobot.\nIt is quite slow; funds to boost the repl or for another hosting server will be much appreciated.\n\nBot version: 0.0.3\nVersion release date: 7/12\n\nGithub link: https://github.com/ToastyDreams413/Toasty-s-Discord-Bot-Project", color = Colors.teal)
+    await message.channel.send(embed = em)
     return
     
     

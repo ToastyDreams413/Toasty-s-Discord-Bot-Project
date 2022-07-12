@@ -1,5 +1,5 @@
 This is ToastyDream's Discord Bot Project
-Contact me at ToastyDreams#9785
+Contact me on discord at ToastyDreams#9785
 
 The main code is in main.py
 

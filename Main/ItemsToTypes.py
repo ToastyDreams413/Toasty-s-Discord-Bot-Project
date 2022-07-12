@@ -1,5 +1,7 @@
 itemType = {
 
+  "Eggs" : "item",
+  
   "Starter Sword" : "weapon",
 
   "Starter Helmet" : "ability",

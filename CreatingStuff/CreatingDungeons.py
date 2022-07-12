@@ -9,6 +9,7 @@ import CreatingStuff.CreatingWeapons as CreatingWeapons
 import CreatingStuff.CreatingArmors as CreatingArmors
 import CreatingStuff.CreatingAbilities as CreatingAbilities
 import CreatingStuff.CreatingGadgets as CreatingGadgets
+import CreatingStuff.CreatingItems as CreatingItems
 
 # weapon:
 # name, type, dmg, att, defense, wis, hp, mp, speed, luck, perk
@@ -32,7 +33,7 @@ def createDungeon(dungeonName, party):
     curParty.append([member, Data.pOverview[member].name, Data.pOverview[member].selected])
   
   if dungeonName == "Chicken's Den":
-    return Dungeon("Chicken's Den", [curParty[0][1], "move"], 1, [CreatingEnemies.miniChicken(), CreatingEnemies.miniChicken(), CreatingEnemies.motherHen()], curParty, 50, [Item("Eggs", "item")], [])
+    return Dungeon("Chicken's Den", [curParty[0][1], "move"], 1, [CreatingEnemies.createEnemy("Mini Chicken"), CreatingEnemies.createEnemy("Mini Chicken"), CreatingEnemies.createEnemy("Mother Hen")], curParty, 50, [CreatingItems.createItem("Eggs")], [])
 
   if dungeonName == "Thieves Hideout":
-    return Dungeon("Thieves Hideout", [curParty[0][1], "move"], 1, [CreatingEnemies.thief(), CreatingEnemies.thief(), CreatingEnemies.thief()], curParty, 100, [Item("Stone Chunk", "item")], [[CreatingWeapons.createWeapon("Rusty Sword"), 50], [CreatingArmors.createArmor("Rusty Heavy Armor"), 50], [CreatingAbilities.createAbility("Rusty Helmet"), 50]])
+    return Dungeon("Thieves Hideout", [curParty[0][1], "move"], 1, [CreatingEnemies.createEnemy("Thief"), CreatingEnemies.createEnemy("Thief"), CreatingEnemies.createEnemy("Thief")], curParty, 100, [Item("Stone Chunk", "item")], [[CreatingWeapons.createWeapon("Rusty Sword"), 50], [CreatingArmors.createArmor("Rusty Heavy Armor"), 50], [CreatingAbilities.createAbility("Rusty Helmet"), 50]])

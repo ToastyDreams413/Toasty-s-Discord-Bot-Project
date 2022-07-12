@@ -2,6 +2,8 @@
 
 difficulties = {
 
-  "Chicken's Den" : "☠️"
+  "Chicken's Den" : "☠️",
+
+  "Thieves Hideout" : "☠️"
   
 }

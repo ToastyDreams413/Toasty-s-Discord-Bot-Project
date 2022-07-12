@@ -11,4 +11,4 @@ class Player:
     self.dungeonsCompleted = {} # dungeons done
     self.cuties = 0 # special currency
     self.inventory = []
-    self.selected = None
+    self.selected = "None"

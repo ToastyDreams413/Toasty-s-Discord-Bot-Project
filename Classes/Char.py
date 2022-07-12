@@ -24,10 +24,6 @@ class Char:
     self.luck = luck # luck
     self.level = level # level
     self.xp = xp # xp
-    self.weapon = ""
-    self.armor = ""
-    self.ability = ""
-    self.gadget = ""
     self.statusEffects = []
     
     if className == "warrior":
