@@ -58,8 +58,8 @@ async def on_ready():
 @client.event
 async def on_message(message):
   curAuthor = str(message.author)
-  if curAuthor == "ToastyBotBeta#5892" and message.channel.name == "bot-test-spam":
-    return
+  #if message.channel.name == "bot-test-spam":
+    #return
   if message.author == client.user:
     return
 
@@ -72,7 +72,7 @@ async def on_message(message):
         if words[0] == "accept":
           em = discord.Embed(title = "Joining Party", description = "You have successfully joined **" + Data.pOverview[Data.commandQueue[curAuthor][1]].name + "**'s party!", color = Colors.pink)
           await message.channel.send(embed = em)
-          Data.parties[Data.commandQueue[curAuthor][1]] = [curAuthor]
+          Data.parties[Data.commandQueue[curAuthor][1]].append(curAuthor)
           Data.partyMembers[curAuthor] = Data.commandQueue[curAuthor][1]
           em = discord.Embed(title = "Party Invite Accepted", description = "**" + Data.pOverview[curAuthor].name + "** accepted the party invite!", color = Colors.pink)
           await Data.commandQueue[curAuthor][2].send(embed = em)
@@ -511,8 +511,13 @@ async def on_message(message):
       words[i] = words[i].lower()
     dungeonName = " ".join(words[1:])
     dungeonName.lower()
+    print(len(dungeonName))
+    dungeonName = dungeonName.strip()
+
+    print("dungeonName: " + dungeonName)
     
     if dungeonName not in curPlayer.dUnlocked:
+      print("NOT UNLOCKED, unlockedDungeons: " + str(curPlayer.dUnlocked))
       if dungeonName in Data.dungeons:
         em = discord.Embed(title = "Error", description = "You haven't unlocked that dungeon yet!", color = Colors.red)
         await message.channel.send(embed = em)

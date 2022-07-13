@@ -23,7 +23,7 @@ parties = {} # parties, where [key] is the leader and [value] are the other memb
 partyMembers = {} # {member, leader}
 messageAuthors = {} # message authors
 friends = {} # in game friends
-admins = ["ToastyDreams#9785"] # admins
+admins = ["ToastyDreams#9785", "Toasty Dreams#9785"] # admins
 
 
 
@@ -82,7 +82,9 @@ def backup():
   f.write(prefix + "\n")
 
   # playing
-  f.write(" ".join(playing) + "\n")
+  f.write(str(len(playing)) + "\n")
+  for player in playing:
+    f.write(player + "\n")
 
   # playingNames
   f.write(" ".join(playingNames) + "\n")
@@ -90,12 +92,12 @@ def backup():
   # namesToTags
   f.write(str(len(namesToTags)) + "\n")
   for tag in namesToTags:
-    f.write(tag + " " + namesToTags[tag] + "\n")
+    f.write(tag + "\n" + namesToTags[tag] + "\n")
 
   # commandQueue
   f.write(str(len(commandQueue)) + "\n")
   for queue in commandQueue:
-    f.write(queue + " " + " ".join(commandQueue[queue]) + "\n")
+    f.write(queue + "\n" + " ".join(commandQueue[queue]) + "\n")
 
   # pOverview
   f.write(str(len(pOverview)) + "\n")
@@ -145,20 +147,24 @@ def loadData():
   f = open("backup.txt", "r")
 
   prefix = f.readline().strip()
-  playing = f.readline().strip().split(" ")
+  numP = int(f.readline().strip())
+  for i in range (numP):
+    playing.append(f.readline().strip())
   playingNames = f.readline().strip().split(" ")
   
   namesToTags.clear()
   cNum = int(f.readline().strip())
   for i in range (cNum):
-    curLine = f.readline().strip().split(" ")
-    namesToTags[curLine[0]] = curLine[1]
+    l1 = f.readline().strip()
+    l2 = f.readline().strip()
+    namesToTags[l1] = l2
 
   commandQueue.clear()
   cNum = int(f.readline().strip())
   for i in range (cNum):
-    curLine = f.readline().strip().split(" ")
-    commandQueue[curLine[0]] = curLine[1:]
+    l1 = f.readline().strip()
+    l2 = f.readline().strip().split(" ")
+    commandQueue[l1] = l2
 
   pOverview.clear()
   cNum = int(f.readline().strip())
@@ -204,7 +210,7 @@ def loadData():
       elif ItemsToTypes.itemType[curItem] == "item":
         curPlayer.inventory.append(CreatingItems.createItem(curItem))
     curPlayer.selected = f.readline().strip()
-    curPlayer.dCompleted = []
+    curPlayer.dCompleted = {}
     d = int(f.readline().strip())
     for x in range (d):
       l1 = f.readline().strip()
