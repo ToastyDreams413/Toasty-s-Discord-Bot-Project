@@ -28,12 +28,12 @@ admins = ["ToastyDreams#9785", "Toasty Dreams#9785"] # admins
 magicClasses = ["mage", "priest"]
 
 playerLimits = {
-  "Chicken's Den" : 2,
+  "Chicken Den" : 2,
   "Thieves Hideout" : 5
 }
 
 classes = ["warrior", "knight", "priest", "mage", "jester", "assassin"] # classes
-dungeons = ["chicken's den", "thieves hideout", "haunted ruins", "your mom's basement", "the endless void", "toasty's temple", "toasty's castle"] # dungeons
+dungeons = ["chicken den", "thieves hideout", "haunted ruins", "your mom's basement", "the endless void", "toasty's temple", "toasty's castle"] # dungeons
 
 
 

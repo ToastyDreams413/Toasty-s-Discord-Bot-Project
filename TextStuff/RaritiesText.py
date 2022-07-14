@@ -17,6 +17,10 @@ itemRarities = {
 
   "Starter Spell" : common,
 
+  "Starter Shield" : common,
+
+  "Starter Tome" : common,
+
   "Rusty Sword" : common,
 
   "Rusty Helmet" : common,
@@ -28,5 +32,6 @@ itemRarities = {
   # the Toasty set
   "Toasty's Sword" : unobtainable,
   "Toasty's Helmet" : unobtainable,
-  "Toasty's Heavy Armor" : unobtainable
+  "Toasty's Heavy Armor" : unobtainable,
+  "Toasty's Amulet" : unobtainable
 }

@@ -32,8 +32,8 @@ def createDungeon(dungeonName, party):
   for member in party:
     curParty.append([member, Data.pOverview[member].name, Data.pOverview[member].selected])
   
-  if dungeonName == "Chicken's Den":
-    return Dungeon("Chicken's Den", [curParty[0][1], "move"], 1, [CreatingEnemies.createEnemy("Mini Chicken"), CreatingEnemies.createEnemy("Mini Chicken"), CreatingEnemies.createEnemy("Mother Hen")], curParty, 50, [CreatingItems.createItem("Eggs")], [])
+  if dungeonName == "Chicken Den":
+    return Dungeon("Chicken Den", [curParty[0][1], "move"], 1, [CreatingEnemies.createEnemy("Mini Chicken"), CreatingEnemies.createEnemy("Mini Chicken"), CreatingEnemies.createEnemy("Mother Hen")], curParty, 50, [CreatingItems.createItem("Eggs")], [])
 
   if dungeonName == "Thieves Hideout":
     return Dungeon("Thieves Hideout", [curParty[0][1], "move"], 1, [CreatingEnemies.createEnemy("Thief"), CreatingEnemies.createEnemy("Thief"), CreatingEnemies.createEnemy("Thief")], curParty, 100, [Item("Stone Chunk", "item")], [[CreatingWeapons.createWeapon("Rusty Sword"), 50], [CreatingArmors.createArmor("Rusty Heavy Armor"), 50], [CreatingAbilities.createAbility("Rusty Helmet"), 50]])

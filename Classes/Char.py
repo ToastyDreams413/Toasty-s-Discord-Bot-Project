@@ -25,18 +25,25 @@ class Char:
     self.level = level # level
     self.xp = xp # xp
     self.statusEffects = []
+
+    self.armor = CreatingArmors.createArmor("None")
+    self.gadget = CreatingGadgets.createGadget("None")
     
     if className == "warrior":
       self.weapon = CreatingWeapons.createWeapon("Starter Sword")
-      self.armor = CreatingArmors.createArmor("None")
       self.ability = CreatingAbilities.createAbility("Starter Helmet")
-      self.gadget = CreatingGadgets.createGadget("None")
 
     elif className == "mage":
       self.weapon = CreatingWeapons.createWeapon("Starter Wand")
-      self.armor = CreatingArmors.createArmor("None")
       self.ability = CreatingAbilities.createAbility("Starter Spell")
-      self.gadget = CreatingGadgets.createGadget("None")
+
+    elif className == "knight":
+      self.weapon = CreatingWeapons.createWeapon("Starter Sword")
+      self.ability = CreatingAbilities.createAbility("Starter Shield")
+
+    elif className == "priest":
+      self.weapon = CreatingWeapons.createWeapon("Starter Wand")
+      self.ability = CreatingAbilities.createAbility("Starter Tome")
 
 
   def getBasicInfo(self):

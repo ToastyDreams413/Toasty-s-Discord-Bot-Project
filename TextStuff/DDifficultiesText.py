@@ -2,7 +2,7 @@
 
 difficulties = {
 
-  "Chicken's Den" : "☠️",
+  "Chicken Den" : "☠️",
 
   "Thieves Hideout" : "☠️☠️",
 

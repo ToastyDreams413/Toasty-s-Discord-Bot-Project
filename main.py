@@ -197,7 +197,7 @@ async def on_message(message):
             
             if Data.inDungeon[curLeader].dungeonName not in Data.pOverview[player[0]].dCompleted:
               Data.pOverview[player[0]].dCompleted[Data.inDungeon[curLeader].dungeonName] = 1
-              if Data.inDungeon[curLeader].dungeonName == "Chicken's Den":
+              if Data.inDungeon[curLeader].dungeonName == "Chicken Den":
                 Data.pOverview[player[0]].dUnlocked.append("thieves hideout")
                 em = discord.Embed(title = "Dungeon Unlocked", description = "You unlocked the dungeon Thieves Hideout!", color = Colors.green)
                 await Data.messageAuthors[player[1]].send(embed = em)
@@ -371,7 +371,7 @@ async def on_message(message):
               
               if Data.inDungeon[curLeader].dungeonName not in Data.pOverview[player[0]].dCompleted:
                 Data.pOverview[player[0]].dCompleted[Data.inDungeon[curLeader].dungeonName] = 1
-                if Data.inDungeon[curLeader].dungeonName == "Chicken's Den":
+                if Data.inDungeon[curLeader].dungeonName == "Chicken Den":
                   Data.pOverview[player[0]].dUnlocked.append("thieves hideout")
                   em = discord.Embed(title = "Dungeon Unlocked", description = "You unlocked the dungeon Thieves Hideout!", color = Colors.green)
                   await Data.messageAuthors[player[1]].send(embed = em)
