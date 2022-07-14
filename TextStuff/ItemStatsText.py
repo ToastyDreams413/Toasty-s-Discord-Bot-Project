@@ -4,6 +4,10 @@ itemStatsText = {
 
   "Starter Helmet" : "Gives +2 Defense\n\nAbility: Berserk [self] (costs 50 MP) - double the damage of your next attack",
 
+  "Starter Wand" : "Has a base damage of 2",
+
+  "Starter Spell" : "Ability: Spell (costs 25 MP) - hits all enemies for 3 magic damage",
+
   "Rusty Sword" : "Has a base damage of 7",
   
   "Rusty Helmet" : "Gives +3 Defense\n\nAbility: Berserk [group] (costs 60 MP) - double the damage of your next attack",

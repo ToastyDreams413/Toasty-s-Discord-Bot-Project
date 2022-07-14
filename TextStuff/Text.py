@@ -30,4 +30,6 @@ helpParty = "**party** - see the members of your current party\n**party [name]**
 
 helpNotFound = "Sorry, I couldn't find anything for you there."
 
-warriorCreated = "You've successfully created a warrior character! You start off at level 1 with 5 attack, 5 defense, 50 health, 20 MP, 5 speed, and 0 luck. Go out there and conquer some dungeons!"
+warriorCreated = "You've successfully created a Warrior character! Go out there and conquer some dungeons!"
+
+mageCreated = "You've successfully created a Mage character! Go out there and conquer some dungeons!"

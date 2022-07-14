@@ -29,6 +29,7 @@ import TextStuff.ItemStatsText as ItemStatsText
 import Main.Colors as Colors
 import Main.ItemsToTypes as ItemsToTypes
 import Main.TypesToTypes as TypesToTypes
+import Main.CanEquip as CanEquip
 import TextStuff.DUnlockReqsText as DUnlockReqsText
 import TextStuff.DDifficultiesText as DDifficultiesText
 import TextStuff.DDescriptionsText as DDescriptionsText
@@ -149,7 +150,8 @@ async def on_message(message):
       char.decreaseEffectTimers()
       
       curEnemy = Data.inDungeon[curLeader].enemies[Data.inDungeon[curLeader].enemiesNameList.index(attacking)]
-      curDmg -= curEnemy.defense
+      if char.className not in Data.magicClasses:
+        curDmg -= curEnemy.defense
       if curDmg <= 0:
         curDmg = 1
       curDmg = min(curDmg, curEnemy.hp)
@@ -328,12 +330,59 @@ async def on_message(message):
                 if player[0] == curAuthor:
                   continue
                 if char2.className == player[2]:
+                  found = False
                   for statusEffect in char2.statusEffects:
                     if statusEffect[0] == "berserk":
                       statusEffect = ["berserk", char.ability.bersAmount, char.ability.bersTurns]
+                      found = True
+                      break
+                  if not found:
+                    char2.statusEffects.append(["berserk", char.ability.bersAmount, char.ability.bersTurns])
                   break
-          em = discord.Embed(title = "Ability", description = char.useAbility(), color = Colors.navy)
+          em = discord.Embed(title = "Ability", description = char.useAbility(Data.inDungeon[curLeader].enemies), color = Colors.navy)
           await message.channel.send(embed = em)
+
+          if Data.inDungeon[curLeader].checkForWin():
+            em = discord.Embed(title = "Dungeon Completed", description = "You won!\nYou've conquered " + Data.inDungeon[curLeader].dungeonName + "\n\n", color = Colors.green)
+            await message.channel.send(embed = em)
+            for player in Data.inDungeon[curLeader].players:
+              lootString = "\n\n__You obtained the following items:__"
+              for item in Data.inDungeon[curLeader].gLoot:
+                Data.pOverview[player[0]].inventory.append(item)
+                lootString += "\n" + item.name
+              for item in Data.inDungeon[curLeader].rLoot:
+                curNum = randint(1, 100)
+                if curNum <= item[1]:
+                  Data.pOverview[player[0]].inventory.append(item[0])
+                  lootString += "\n" + item[0].name
+              em = discord.Embed(title = "Dungeon Rewards", description = "You earned " + str(Data.inDungeon[curLeader].xpOnComp) + " xp" + lootString, color = Colors.green)
+              for char in Data.pOverview[player[0]].chars:
+                if char.className == Data.pOverview[player[0]].selected:
+                  char.hp = char.getTotalMaxHp()
+                  char.mp = char.getTotalMaxMp()
+                  char.xp += Data.inDungeon[curLeader].xpOnComp
+  
+                  # if they have enough xp to level up now
+                  if char.xp >= Data.xpToNextLevel[char.level - 1]:
+                    em = discord.Embed(title = "Level up", description = char.levelUp(), color = Colors.green)
+                    await Data.messageAuthors[player[1]].send(embed = em)
+                    
+              await Data.messageAuthors[player[1]].send(embed = em)
+              
+              if Data.inDungeon[curLeader].dungeonName not in Data.pOverview[player[0]].dCompleted:
+                Data.pOverview[player[0]].dCompleted[Data.inDungeon[curLeader].dungeonName] = 1
+                if Data.inDungeon[curLeader].dungeonName == "Chicken's Den":
+                  Data.pOverview[player[0]].dUnlocked.append("thieves hideout")
+                  em = discord.Embed(title = "Dungeon Unlocked", description = "You unlocked the dungeon Thieves Hideout!", color = Colors.green)
+                  await Data.messageAuthors[player[1]].send(embed = em)
+              else:
+                Data.pOverview[player[0]].dCompleted[Data.inDungeon[curLeader].dungeonName] += 1
+  
+  
+  
+            del Data.inDungeon[curLeader]
+            
+            return
 
           Data.inDungeon[curLeader].move[1] = "move"
           if Data.inDungeon[curLeader].move[0] == Data.inDungeon[curLeader].players[-1][1]:
@@ -474,10 +523,16 @@ async def on_message(message):
           await message.channel.send(embed = em)
           return
       if words[1] == "warrior" or words[1] == "warr":
-        curChar = Char("warrior", 5, 5, 50, 50, 5, 50, 50, 5, 0, 1, 0)
+        curChar = Char("warrior", 5, 5, 50, 50, 5, 50, 50, 5, 0, 1, 0) # att, defense, hp, maxHp, wis, mp, maxMp, speed, luck, level, xp
         Data.pOverview[curAuthor].chars.append(curChar)
         em = discord.Embed(title = "Creating Character", description = Text.warriorCreated, color = Colors.navy)
         await message.channel.send(embed = em)
+      elif words[1] == "mage":
+        curChar = Char("mage", 5, 30, 30, 30, 5, 50, 50, 0, 0, 1, 0)
+        Data.pOverview[curAuthor].chars.append(curChar)
+        em = discord.Embed(title = "Creating Character", description = Text.mageCreated, color = Colors.navy)
+        await message.channel.send(embed = em)
+      return
         
     elif words[1] not in curPlayer.cUnlocked:
       if words[1] in Data.classes:
@@ -511,13 +566,13 @@ async def on_message(message):
       words[i] = words[i].lower()
     dungeonName = " ".join(words[1:])
     dungeonName.lower()
-    print(len(dungeonName))
+    #print(len(dungeonName))
     dungeonName = dungeonName.strip()
 
-    print("dungeonName: " + dungeonName)
+    #print("dungeonName: " + dungeonName)
     
     if dungeonName not in curPlayer.dUnlocked:
-      print("NOT UNLOCKED, unlockedDungeons: " + str(curPlayer.dUnlocked))
+      #print("NOT UNLOCKED, unlockedDungeons: " + str(curPlayer.dUnlocked))
       if dungeonName in Data.dungeons:
         em = discord.Embed(title = "Error", description = "You haven't unlocked that dungeon yet!", color = Colors.red)
         await message.channel.send(embed = em)
@@ -881,6 +936,10 @@ async def on_message(message):
             addString = ""
             
             if TypesToTypes.typetype[item.type] == "weapon":
+              if CanEquip.canEquip[item.name] != Data.pOverview[curAuthor].selected:
+                em = discord.Embed(title = "Error", description = "You cannot equip that weapon on this class!", color = Colors.red)
+                await message.channel.send(embed = em)
+                return
               if char.weapon.name != "None":
                 Data.pOverview[curAuthor].inventory.append(char.weapon)
                 addString = "\nTo do so, you automatically unequipped your " + char.weapon.name + "."
@@ -888,6 +947,10 @@ async def on_message(message):
               Data.pOverview[curAuthor].inventory.remove(item)
               
             elif TypesToTypes.typetype[item.type] == "ability":
+              if CanEquip.canEquip[item.name] != Data.pOverview[curAuthor].selected:
+                em = discord.Embed(title = "Error", description = "You cannot equip that ability on this class!", color = Colors.red)
+                await message.channel.send(embed = em)
+                return
               if char.ability.name != "None":
                 Data.pOverview[curAuthor].inventory.append(char.ability)
                 addString = "\nTo do so, you automatically unequipped your " + char.ability.name + "."
@@ -895,6 +958,10 @@ async def on_message(message):
               Data.pOverview[curAuthor].inventory.remove(item)
               
             elif TypesToTypes.typetype[item.type] == "armor":
+              if CanEquip.canEquip[item.name] != Data.pOverview[curAuthor].selected:
+                em = discord.Embed(title = "Error", description = "You cannot equip that armor on this class!", color = Colors.red)
+                await message.channel.send(embed = em)
+                return
               if char.armor.name != "None":
                 Data.pOverview[curAuthor].inventory.append(char.armor)
                 addString = "\nTo do so, you automatically unequipped your " + char.armor.name + "."

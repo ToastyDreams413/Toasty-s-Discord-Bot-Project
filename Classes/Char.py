@@ -32,6 +32,12 @@ class Char:
       self.ability = CreatingAbilities.createAbility("Starter Helmet")
       self.gadget = CreatingGadgets.createGadget("None")
 
+    elif className == "mage":
+      self.weapon = CreatingWeapons.createWeapon("Starter Wand")
+      self.armor = CreatingArmors.createArmor("None")
+      self.ability = CreatingAbilities.createAbility("Starter Spell")
+      self.gadget = CreatingGadgets.createGadget("None")
+
 
   def getBasicInfo(self):
     return " [lvl " + str(self.level) + " " + self.className + "]:\n" + str(self.hp) + "/" + str(self.getTotalMaxHp()) + " HP\n" + str(self.mp) + "/" + str(self.getTotalMaxMp()) + " MP"
@@ -70,9 +76,10 @@ class Char:
   def getTotalLuck(self):
     return self.luck + self.weapon.luck + self.armor.luck + self.ability.luck + self.gadget.luck
 
-  def useAbility(self):
+  def useAbility(self, enemyList):
     self.mp -= self.ability.mpCost
     curString = ""
+    
     if self.ability.type == "helmet":
       self.statusEffects.append(["berserk", self.ability.bersAmount, self.ability.bersTurns])
       curAdd = ""
@@ -83,6 +90,14 @@ class Char:
       curString += "You used your berserker ability, costing " + str(self.ability.mpCost) + " MP, and buffing " + curAdd + " base damage by " + str(self.ability.bersAmount) + "x for " + str(self.ability.bersTurns) + " turn"
       if self.ability.bersTurns > 1:
         curString += "s"
+
+    elif self.ability.type == "spell":
+      curDmg = self.ability.dmg
+      for enemy in enemyList:
+        curDmg = min(curDmg, enemy.hp)
+        enemy.hp -= curDmg
+      curString += "You use your spell ability, costing " + str(self.ability.mpCost) + " MP, and hitting all the enemies for " + str(curDmg) + " magic damage!"
+    
     return curString
 
   def resetStats(self):

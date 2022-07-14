@@ -5,7 +5,7 @@ class Player:
     self.chars = [] # characters of this player
     self.charSlots = 2 # max number of characters this player can have
     self.gold = 0 # the amount of gold this player has
-    self.cUnlocked = ["warrior"] # classes unlocked by this player
+    self.cUnlocked = ["warrior", "mage"] # classes unlocked by this player
     self.dUnlocked = ["chicken's den"] # dungeons unlocked by this player
     self.details = [] # other details/things to track
     self.dCompleted = {} # dungeons done

@@ -12,6 +12,9 @@ def createWeapon(name):
   if name == "Starter Sword":
     return Weapon("Starter Sword", "sword", 5, 0, 0, 0, 0, 0, 0, 0, None)
 
+  if name == "Starter Wand":
+    return Weapon("Starter Wand", "wand", 2, 0, 0, 0, 0, 0, 0, 0, None)
+
   if name == "Rusty Sword":
     return Weapon("Rusty Sword", "sword", 7, 0, 0, 0, 0, 0, 0, 0, None)
   

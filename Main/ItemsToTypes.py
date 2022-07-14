@@ -6,6 +6,10 @@ itemType = {
 
   "Starter Helmet" : "ability",
 
+  "Starter Wand" : "weapon",
+
+  "Starter Spell" : "ability",
+
   "Rusty Sword" : "weapon",
 
   "Rusty Helmet" : "ability",

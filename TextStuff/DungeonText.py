@@ -7,3 +7,6 @@ def enterDungeonText(dungeonName):
 
   if dungeonName == "Thieves Hideout":
     return "You enter the Thieves' Hideout, expecting to find some lowly thieves and some nice loot. Surely enough, you come quickly encounter the thieves, but they seem quite angry that you're invading their hideout. Better hope you can defeat them quick and steal whatever goodies they have!"
+
+  if dungeonName == "Haunted Ruins":
+    return "You enter the Haunted Ruins, and... it feels like there's an eerie chill in the air."

@@ -13,6 +13,10 @@ itemRarities = {
 
   "Starter Helmet" : common,
 
+  "Starter Wand" : common,
+
+  "Starter Spell" : common,
+
   "Rusty Sword" : common,
 
   "Rusty Helmet" : common,

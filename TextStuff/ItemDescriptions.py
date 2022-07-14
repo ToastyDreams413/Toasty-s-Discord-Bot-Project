@@ -4,6 +4,10 @@ itemDescriptions = {
 
   "Starter Helmet" : "*Barely fits on my head.*",
 
+  "Starter Wand" : "*You sure this stick has magical power in it?*",
+
+  "Starter Spell" : "*Pretty sure this is just a rock.*",
+
   "Rusty Sword" : "*A rusty, old sword.*",
   
   "Rusty Helmet" : "*A rusty, old helmet.*",

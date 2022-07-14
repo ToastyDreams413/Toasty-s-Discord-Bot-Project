@@ -25,6 +25,30 @@ messageAuthors = {} # message authors
 friends = {} # in game friends
 admins = ["ToastyDreams#9785", "Toasty Dreams#9785"] # admins
 
+magicClasses = ["mage", "priest"]
+
+playerLimits = {
+  "Chicken's Den" : 2,
+  "Thieves Hideout" : 5
+}
+
+classes = ["warrior", "knight", "priest", "mage", "jester", "assassin"] # classes
+dungeons = ["chicken's den", "thieves hideout", "haunted ruins", "your mom's basement", "the endless void", "toasty's temple", "toasty's castle"] # dungeons
+
+
+
+xpToNextLevel = [
+  100, # to lvl 2
+  200, # to lvl 3
+  300, # to lvl 4
+  500, # to lvl 5
+  800, # to lvl 6
+  1000, # to lvl 7
+  2500, # to lvl 8
+  5000, # to lvl 9
+  10000 # to lvl 10
+]
+
 
 
 def getPlayerData(player):
@@ -275,28 +299,3 @@ def loadData():
   for i in range (numPM):
     cPM = f.readline().strip().split(" ")
     partyMembers[cPM[0]] = cPM[1]
-
-
-
-
-playerLimits = {
-  "Chicken's Den" : 2,
-  "Thieves Hideout" : 5
-}
-
-classes = ["warrior", "knight", "priest", "mage", "jester", "assassin"] # classes
-dungeons = ["chicken's den", "thieves hideout", "your mom's basement", "the endless void", "toasty's temple", "toasty's castle"] # dungeons
-
-
-
-xpToNextLevel = [
-  100, # to lvl 2
-  200, # to lvl 3
-  300, # to lvl 4
-  500, # to lvl 5
-  800, # to lvl 6
-  1000, # to lvl 7
-  2500, # to lvl 8
-  5000, # to lvl 9
-  10000 # to lvl 10
-]
