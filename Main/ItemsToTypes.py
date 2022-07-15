@@ -19,5 +19,6 @@ itemType = {
   # the Toasty set
   "Toasty's Sword" : "weapon",
   "Toasty's Helmet" : "ability",
-  "Toasty's Heavy Armor" : "armor"
+  "Toasty's Heavy Armor" : "armor",
+  "Toasty's Amulet" : "gadget"
 }

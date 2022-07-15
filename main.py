@@ -73,7 +73,10 @@ async def on_message(message):
         if words[0] == "accept":
           em = discord.Embed(title = "Joining Party", description = "You have successfully joined **" + Data.pOverview[Data.commandQueue[curAuthor][1]].name + "**'s party!", color = Colors.pink)
           await message.channel.send(embed = em)
-          Data.parties[Data.commandQueue[curAuthor][1]].append(curAuthor)
+          if Data.commandQueue[curAuthor][1] in Data.parties:
+            Data.parties[Data.commandQueue[curAuthor][1]].append(curAuthor)
+          else:
+            Data.parties[Data.commandQueue[curAuthor][1]] = [curAuthor]
           Data.partyMembers[curAuthor] = Data.commandQueue[curAuthor][1]
           em = discord.Embed(title = "Party Invite Accepted", description = "**" + Data.pOverview[curAuthor].name + "** accepted the party invite!", color = Colors.pink)
           await Data.commandQueue[curAuthor][2].send(embed = em)
@@ -662,9 +665,11 @@ async def on_message(message):
       for dungeon in curPlayer.dCompleted:
         curString += dungeon + " - " + str(curPlayer.dCompleted[dungeon]) + "\n"
     curString += "\n__Classes Unlocked:__\n"
-    curString += "\n".join(curPlayer.cUnlocked)
-    curString += "\n\n__Dungeons Unlocked:__\n"
-    curString += "\n".join(curPlayer.dUnlocked)
+    for className in curPlayer.cUnlocked:
+      curString += className.title() + "\n"
+    curString += "\n__Dungeons Unlocked:__\n"
+    for dungeonName in curPlayer.dUnlocked:
+      curString += dungeonName.title() + "\n"
     em = discord.Embed(title = "Player Overview", description = curString, color = Colors.teal)
     await message.channel.send(embed = em)
     return

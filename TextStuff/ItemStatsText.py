@@ -6,7 +6,7 @@ itemStatsText = {
 
   "Starter Wand" : "Has a base damage of 2",
 
-  "Starter Spell" : "Gives +1 Attack and +1 Wisdom\n\nAbility: Spell (costs 25 MP) - hits all enemies for 3 magic damage",
+  "Starter Spell" : "Gives +1 Attack and +1 Wisdom\n\nAbility: Cast Spell (costs 25 MP) - hits all enemies for 3 magic damage",
 
   "Starter Shield" : "Gives +2 Defense\n\nAbility: Shield Bash (costs 50 MP) - stuns an enemy for 1 turn",
 
@@ -17,6 +17,14 @@ itemStatsText = {
   "Rusty Helmet" : "Gives +3 Defense\n\nAbility: Berserk [group] (costs 60 MP) - double the damage of your next attack",
 
   "Rusty Heavy Armor" : "Gives +5 Defense",
+
+  "Broken Watch" : "",
+
+  "Magic Wand" : "Has a base damage of 3",
+
+  "Magic Spell" : "Gives +2 Attack and +2 Wisdom\n\nAbility: Cast Spell (costs 35 MP) - hits all enemies for 5 magic damage",
+  
+  "Magic Robes" : "Gives +10 MP, +2 Defense, and +2 Wisdom",
 
   
 

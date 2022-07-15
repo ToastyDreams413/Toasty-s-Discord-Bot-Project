@@ -27,6 +27,16 @@ itemRarities = {
 
   "Rusty Heavy Armor" : common,
 
+  "Broken Watch" : common,
+
+  "Magic Wand" : common,
+
+  "Magic Spell" : common,
+
+  "Magic Robes" : common,
+
+  "Dusty Goggles" : common,
+
 
   
   # the Toasty set

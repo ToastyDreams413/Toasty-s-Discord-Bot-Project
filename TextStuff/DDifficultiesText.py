@@ -4,30 +4,30 @@ difficulties = {
 
   "Chicken Den" : "☠️",
 
-  "Thieves Hideout" : "☠️☠️",
+  "Thieves Hideout" : "☠️ ☠️",
 
-  "Witch's Hut" : "☠️☠️",
+  "Witch's Hut" : "☠️ ☠️",
 
-  "Arachna's Cave" : "☠️☠️☠️",
+  "Arachna's Cave" : "☠️ ☠️ ☠️",
 
-  "Bee Hive" : "☠️☠️☠️",
+  "Bee Hive" : "☠️ ☠️ ☠️",
 
-  "Pit of Snakes" : "☠️☠️☠️",
+  "Pit of Snakes" : "☠️ ☠️ ☠️",
 
-  "Haunted Ruins" : "☠️☠️☠️☠️",
+  "Haunted Ruins" : "☠️ ☠️ ☠️ ☠️",
 
-  "Abyss of Dread" : "☠️☠️☠️☠️",
+  "Abyss of Dread" : "☠️ ☠️ ☠️ ☠️",
 
-  "Pit of Gorgons" : "☠️☠️☠️☠️☠️",
+  "Pit of Gorgons" : "☠️ ☠️ ☠️ ☠️ ☠️",
 
-  "The Webbed Depths" : "☠️☠️☠️☠️☠️",
+  "The Webbed Depths" : "☠️ ☠️ ☠️ ☠️ ☠️",
 
-  "Wasp Nest" : "☠️☠️☠️☠️☠️",
+  "Wasp Nest" : "☠️ ☠️ ☠️ ☠️ ☠️",
 
-  "Temple of the Immortals" : "☠️☠️☠️☠️☠️☠️",
+  "Temple of the Immortals" : "☠️ ☠️ ☠️ ☠️ ☠️ ☠️",
 
-  "Sanctuary of Demons" : "☠️☠️☠️☠️☠️☠️☠️",
+  "Sanctuary of Demons" : "☠️ ☠️ ☠️ ☠️ ☠️ ☠️ ☠️",
 
-  "The Despairing Dark" : "☠️☠️☠️☠️☠️☠️☠️"
+  "The Despairing Dark" : "☠️ ☠️ ☠️ ☠️ ☠️ ☠️ ☠️"
   
 }
